@@ -1,0 +1,45 @@
+!!!
+%html{:lang => "en", "xml:lang" => "en", :xmlns => "http://www.w3.org/1999/xhtml"}
+  %head
+    %title SSF.me
+    %meta{:content => "text/html; charset=utf-8", "http-equiv" => "Content-Type"}/
+    %link{:href => "/favicon.ico", :rel => "shortcut icon"}/
+    %meta{:content => "IE=8", "http-equiv" => "X-UA-Compatible"}/
+    %link{:charset => "utf-8", :href => "/css/main.css", :media => "screen", :rel => "stylesheet", :title => "no title", :type => "text/css"}/
+  %body
+    .shrink
+      %form#shrinkform.shrinkform{:action => "/bookmark", :method => "get"}
+        %input{:name => "key", :type => "hidden", :value => "d41d8cd98f00b204e9800998ecf8427e"}/
+        %input#url.text{:name => "url", :type => "text"}/
+        %a#shrink.action Shorten
+      #shrinkresult
+    .shrinkcont
+      #recentshrinks
+        %table.shrinks
+          %tbody
+            %tr
+              %td
+                %span.alt Clicks
+              %td
+                %span.alt Long Url
+              /%td
+              /  %span.alt Statistics
+              %td
+                %span.alt Short Url
+            -@links.each do |link|
+              %tr
+                %td.count
+                  %a{:href => "#"}
+                    =link.times_viewed
+                %td{:width => "55%"}
+                  %a{:href => link.full_url, :target => "_vblank"}
+                    =link.full_url
+                /%td
+                /  %a{:href => "/info/googl"} Stats Page
+                %td
+                  %a{:href => link.short_url}
+                    =link.short_url
+    .spacer &nbsp;
+    %hr/
+    %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js", :type => "text/javascript"}
+    %script{:src => "/js/app.js", :type => "text/javascript"}

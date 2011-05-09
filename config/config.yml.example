@@ -1,0 +1,20 @@
+development:
+  hostname: http://127.0.0.1:9393
+  redirect_url: http://example.com
+  auth:
+    user: basic_auth_user
+    password:  basic_auth_pass
+    key: api_random_key
+  database:
+    host: localhost
+    database: soshi_short_development
+production:
+  hostname: http://example.com
+  redirect_url: http://example.com
+  auth:
+    user:  basic_auth_user
+    password:  basic_auth_pass
+    key: api_random_key
+  database:
+    host: localhost
+    database: soshi_short_production

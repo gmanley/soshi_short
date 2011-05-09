@@ -1,0 +1,84 @@
+GIT
+  remote: git://github.com/sinatra/sinatra.git
+  revision: def6fb5a34cbd5ab24fdceb2b9a5cdecfaa473c3
+  ref: def6fb5a34cbd5ab24fd
+  specs:
+    sinatra (1.3.0)
+      rack (~> 1.2)
+      tilt (~> 1.3)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    activemodel (3.0.7)
+      activesupport (= 3.0.7)
+      builder (~> 2.1.2)
+      i18n (~> 0.5.0)
+    activesupport (3.0.7)
+    bson (1.3.0)
+    bson_ext (1.3.0)
+    builder (2.1.2)
+    capistrano (2.5.21)
+      highline
+      net-scp (>= 1.0.0)
+      net-sftp (>= 2.0.0)
+      net-ssh (>= 2.0.14)
+      net-ssh-gateway (>= 1.0.0)
+    configuration (1.2.0)
+    daemons (1.1.3)
+    eventmachine (0.12.10)
+    haml (3.0.25)
+    heroku (1.20.1)
+      launchy (~> 0.3.2)
+      rest-client (< 1.7.0, >= 1.4.0)
+    highline (1.6.1)
+    i18n (0.5.0)
+    launchy (0.3.7)
+      configuration (>= 0.0.5)
+      rake (>= 0.8.1)
+    mime-types (1.16)
+    mongo (1.3.0)
+      bson (>= 1.3.0)
+    mongoid (2.0.1)
+      activemodel (~> 3.0)
+      mongo (~> 1.3)
+      tzinfo (~> 0.3.22)
+      will_paginate (~> 3.0.pre)
+    net-scp (1.0.4)
+      net-ssh (>= 1.99.1)
+    net-sftp (2.0.5)
+      net-ssh (>= 2.0.9)
+    net-ssh (2.1.4)
+    net-ssh-gateway (1.0.1)
+      net-ssh (>= 1.99.1)
+    rack (1.2.2)
+    rack-test (0.5.7)
+      rack (>= 1.0)
+    rake (0.8.7)
+    rest-client (1.6.1)
+      mime-types (>= 1.16)
+    shotgun (0.9)
+      rack (>= 1.0)
+    thin (1.2.11)
+      daemons (>= 1.0.9)
+      eventmachine (>= 0.12.6)
+      rack (>= 1.0.0)
+    tilt (1.3)
+    timecop (0.3.5)
+    tzinfo (0.3.26)
+    will_paginate (3.0.pre2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bson_ext
+  capistrano
+  haml
+  heroku
+  mongoid
+  rack-test
+  shotgun
+  sinatra!
+  thin
+  timecop

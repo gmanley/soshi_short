@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+env = ARGV[0]
+if env
+  exec("bundle exec passenger start --socket /tmp/ssf.me.socket -d --log-file ~/apps/ssf.me/log/error.log -e #{env}")
+else
+  exec("bundle exec shotgun -s thin")
+end
