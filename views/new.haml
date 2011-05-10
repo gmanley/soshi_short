@@ -22,8 +22,6 @@
                 %span.alt Clicks
               %td
                 %span.alt Long Url
-              /%td
-              /  %span.alt Statistics
               %td
                 %span.alt Short Url
             -@links.each do |link|
@@ -34,8 +32,6 @@
                 %td{:width => "55%"}
                   %a{:href => link.full_url, :target => "_vblank"}
                     =link.full_url
-                /%td
-                /  %a{:href => "/info/googl"} Stats Page
                 %td
                   %a{:href => link.short_url}
                     =link.short_url
