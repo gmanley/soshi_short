@@ -1,9 +1,9 @@
 source :gemcutter
 
-gem 'sinatra', :require => 'sinatra/base', :git => 'git://github.com/sinatra/sinatra.git', :ref => 'def6fb5a34cbd5ab24fd'
+gem 'sinatra', :require => 'sinatra/base', :git => 'git://github.com/sinatra/sinatra.git'
 gem 'haml'
 gem "bson_ext"
-gem "mongoid"
+gem 'mongoid', :git => 'git://github.com/gmanley/mongoid.git', :branch => 'pagination'
 
 group :development do
   gem 'shotgun', :require => false
