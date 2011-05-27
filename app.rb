@@ -59,6 +59,8 @@ module SoshiShort
       if url.nil?
         raise Sinatra::NotFound
       else
+        url.update_attributes({:last_accessed => Time.now, :times_viewed => url.times_viewed + 1})
+        url.save
         redirect url.full_url, 301
       end
     end
