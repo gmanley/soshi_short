@@ -3,16 +3,10 @@ source :gemcutter
 gem 'sinatra', :require => 'sinatra/base', :git => 'git://github.com/sinatra/sinatra.git'
 gem 'haml'
 gem "bson_ext"
-gem 'mongoid', :git => 'git://github.com/gmanley/mongoid.git', :branch => 'pagination'
+gem 'mongoid', :git => 'git://github.com/mongoid/mongoid.git'
+gem 'rack-test', :require => false
+gem 'hoptoad_notifier'
 
-group :development do
-  gem 'shotgun', :require => false
-  gem 'thin', :require => false
-  gem 'capistrano', :require => false
-  gem 'heroku', :require => false
-end
-
-group :test do
-  gem 'rack-test', :require => 'rack/test'
-  gem 'timecop'
+group :production do
+  gem 'passenger'
 end

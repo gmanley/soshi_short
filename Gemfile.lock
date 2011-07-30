@@ -1,17 +1,15 @@
 GIT
-  remote: git://github.com/gmanley/mongoid.git
-  revision: 9d25b10ee655ffa17b9d4e713ed7a52d39aaba9f
-  branch: pagination
+  remote: git://github.com/mongoid/mongoid.git
+  revision: 946cb2bbe9277da92bdc3f2de4ca55df5f0f610f
   specs:
-    mongoid (2.0.2)
+    mongoid (2.1.0)
       activemodel (~> 3.0)
       mongo (~> 1.3)
       tzinfo (~> 0.3.22)
-      will_paginate (~> 3.0.pre)
 
 GIT
   remote: git://github.com/sinatra/sinatra.git
-  revision: 3233c16ee6d702994499263b64ed0d96939baa4a
+  revision: fb8265731d3c5b8771bf217843a678daadcf436d
   specs:
     sinatra (1.3.0)
       rack (~> 1.3)
@@ -20,72 +18,43 @@ GIT
 GEM
   remote: http://rubygems.org/
   specs:
-    activemodel (3.0.7)
-      activesupport (= 3.0.7)
+    activemodel (3.0.9)
+      activesupport (= 3.0.9)
       builder (~> 2.1.2)
       i18n (~> 0.5.0)
-    activesupport (3.0.7)
+    activesupport (3.0.9)
     bson (1.3.1)
     bson_ext (1.3.1)
     builder (2.1.2)
-    capistrano (2.6.0)
-      highline
-      net-scp (>= 1.0.0)
-      net-sftp (>= 2.0.0)
-      net-ssh (>= 2.0.14)
-      net-ssh-gateway (>= 1.1.0)
-    configuration (1.2.0)
-    daemons (1.1.3)
-    eventmachine (0.12.10)
-    haml (3.1.1)
-    heroku (2.2.0)
-      launchy (>= 0.3.2)
-      rest-client (~> 1.6.1)
-      term-ansicolor (~> 1.0.5)
-    highline (1.6.2)
+    daemon_controller (0.2.6)
+    fastthread (1.0.7)
+    haml (3.1.2)
+    hoptoad_notifier (2.4.11)
+      activesupport
+      builder
     i18n (0.5.0)
-    launchy (0.4.0)
-      configuration (>= 0.0.5)
-      rake (>= 0.8.1)
-    mime-types (1.16)
     mongo (1.3.1)
       bson (>= 1.3.1)
-    net-scp (1.0.4)
-      net-ssh (>= 1.99.1)
-    net-sftp (2.0.5)
-      net-ssh (>= 2.0.9)
-    net-ssh (2.1.4)
-    net-ssh-gateway (1.1.0)
-      net-ssh (>= 1.99.1)
-    rack (1.3.0)
-    rack-test (0.6.0)
+    passenger (3.0.7)
+      daemon_controller (>= 0.2.5)
+      fastthread (>= 1.0.1)
+      rack
+      rake (>= 0.8.1)
+    rack (1.3.2)
+    rack-test (0.6.1)
       rack (>= 1.0)
-    rake (0.9.0)
-    rest-client (1.6.1)
-      mime-types (>= 1.16)
-    shotgun (0.9)
-      rack (>= 1.0)
-    term-ansicolor (1.0.5)
-    thin (1.2.11)
-      daemons (>= 1.0.9)
-      eventmachine (>= 0.12.6)
-      rack (>= 1.0.0)
+    rake (0.9.2)
     tilt (1.3.2)
-    timecop (0.3.5)
-    tzinfo (0.3.27)
-    will_paginate (3.0.pre2)
+    tzinfo (0.3.29)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   bson_ext
-  capistrano
   haml
-  heroku
+  hoptoad_notifier
   mongoid!
+  passenger
   rack-test
-  shotgun
   sinatra!
-  thin
-  timecop

@@ -9,6 +9,7 @@ development:
     host: localhost
     database: soshi_short_development
 production:
+  hoptoad_api_key: hoptoad_api_key # Optional, will use hoptoad only if present.
   hostname: http://example.com
   redirect_url: http://example.com
   auth:

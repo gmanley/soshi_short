@@ -15,6 +15,16 @@ module SoshiShort
       require "lib/url"
     end
 
+    configure :production do
+      unless config('hoptoad_api_key').nil?
+        enable :raise_errors
+        use HoptoadNotifier::Rack
+        HoptoadNotifier.configure do |config|
+          config.api_key = config('hoptoad_api_key')
+        end
+      end
+    end
+
     helpers do
       def protected!
         unless authorized?
