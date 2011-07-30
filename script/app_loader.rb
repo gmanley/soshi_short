@@ -35,7 +35,7 @@ module RackIRB
       def reload!
         @reloader ||= Rack::Reloader.new(app)
         @reloader.reload!
-        load(File.dirname(__FILE__) + '/app_loader.rb')
+        load('script/app_loader.rb')
       end
 
       def console_help
