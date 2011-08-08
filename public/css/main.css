@@ -26,6 +26,11 @@ span.alt {
   font-family: Georgia;
 }
 
+* {
+  margin: 0; padding: 0;
+  border: 0
+}
+
 hr {
   background: #ddd;
   border: none;
@@ -68,7 +73,7 @@ table.shrinks a {  font-size: 1.2em }
 
 div.shrink {
   margin: 0 auto;
-  margin-top: 80px;
+  padding-top: 80px;
   width: 600px;
 }
 
@@ -115,4 +120,75 @@ a.action {
   border-radius: 4px;
   font-size: 1.0em !important;
   text-decoration: none;
+}
+
+#loading {
+  display: none;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: #000;
+  -moz-opacity: 0.8;
+  filter: alpha(opacity=80);
+  opacity: 0.8;
+}
+
+#loading div {
+  padding-top:75px;
+  color: #fff;
+  font-size: 34px;
+  text-align: center
+}
+
+.pagination {
+  height: 40px;
+  margin-top: 10px
+}
+
+.pagination li {
+  float: left;
+  font-size: 11px;
+  list-style: none
+}
+
+.pagination .gap {  padding: 0px 3px }
+
+.pagination li a,
+.pagination li p {
+  margin-right: 2px;
+  border: solid 1px #DDDDDD
+}
+
+.pagination li a:hover {  border: solid 1px #666666 }
+
+.pagination li a:link,
+.pagination li a:visited {
+  display: block; float: left;
+  padding: 3px 6px;
+  color: #A10E0E;
+  text-decoration: none
+}
+
+.pagination .next_page a,
+.pagination .previous_page a {
+  display: block; float: left;
+  color: #A10E0E;
+  font-weight: bold
+}
+
+.pagination .next_page.disabled p,
+.pagination .previous_page.disabled p {
+  display: block; float: left;
+  padding: 3px 6px;
+  color:#DDD;
+  font-size: 12px; font-weight: normal;
+  cursor: default
+}
+
+.pagination .current p {
+  display: block; float: left;
+  padding: 2px 6px;
+  background-color: #DDD;
+  font-size: 14px; font-weight: bold;
+  cursor: default
 }
