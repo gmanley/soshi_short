@@ -68,8 +68,7 @@ module SoshiShort
       haml :new
     end
 
-    get '/:url' do |url|
-      url_key = URI.parse(url).path.gsub('/', '')
+    get '/:url' do |url_key|
       url = Url.where(:url_key => url_key).first
       if url.nil?
         status 404
