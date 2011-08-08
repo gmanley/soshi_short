@@ -1,5 +1,5 @@
 require 'uri'
-require 'digest/md5'
+require 'securerandom'
 
 module SoshiShort
   class InvalidUrl < StandardError; end
@@ -22,8 +22,12 @@ module SoshiShort
 
     protected
     def generate_url_key
-      generated_key = Digest::MD5.hexdigest(full_url)[0..3]
-      !Url.where(:url_key => generated_key).empty? ? generate_url_key : self.url_key = generated_key if url_key.nil?
+      generated_key = SecureRandom.hex[0..3]
+      if Url.where(:url_key => generated_key).any?
+        generate_url_key
+      else
+        self.url_key = generated_key if url_key.nil?
+      end
     end
   end
 end
