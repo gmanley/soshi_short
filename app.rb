@@ -49,10 +49,6 @@ module SoshiShort
       end
     end
 
-    get '/' do
-      redirect 'http://soshified.com/forums'
-    end
-
     get '/bookmark' do
       protected! unless valid_key_provided? || settings.environment != :production
 
@@ -86,7 +82,7 @@ module SoshiShort
     end
 
     not_found do
-      redirect "/"
+      redirect 'http://soshified.com/forums'
     end
   end
 end
