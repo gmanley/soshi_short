@@ -76,7 +76,7 @@ module SoshiShort
       url_key = URI.parse(url).path.gsub('/', '')
       url = Url.where(:url_key => url_key).first
       if url.nil?
-        raise Sinatra::NotFound
+        status 404
       else
         url.inc(:times_viewed, 1)
         url.last_accessed = Time.now
