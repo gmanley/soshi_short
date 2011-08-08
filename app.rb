@@ -16,11 +16,11 @@ module SoshiShort
     end
 
     configure :production do
-      unless config('hoptoad_api_key').nil?
+      unless config['hoptoad_api_key'].nil?
         enable :raise_errors
         use HoptoadNotifier::Rack
-        HoptoadNotifier.configure do |config|
-          config.api_key = config('hoptoad_api_key')
+        HoptoadNotifier.configure do |hoptoad_config|
+          hoptoad_config.api_key = config['hoptoad_api_key']
         end
       end
     end
