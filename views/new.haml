@@ -35,6 +35,7 @@
                 %td
                   %a{:href => link.short_url}
                     =link.short_url
+        = will_paginate(@links)
     .spacer &nbsp;
     %hr/
     %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js", :type => "text/javascript"}

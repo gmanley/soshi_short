@@ -25,6 +25,8 @@ module SoshiShort
       end
     end
 
+    require 'lib/pagination_helper'
+    helpers WillPaginate::ViewHelpers::Base
     helpers do
       def protected!
         unless authorized?
@@ -58,9 +60,16 @@ module SoshiShort
         url = Url.find_or_create_by(:full_url => params[:url])
         return url.short_url
       else
-        @links = Url.all.order_by([[:last_accessed, :desc], [:times_viewed, :desc]])
+        @links = Url.paginate(:page => 1, :per_page => 100)
         haml :new
       end
+    end
+
+    get '/bookmark/:page_number' do |page_number|
+      protected! unless settings.environment != :production
+
+      @links = Url.paginate(:page => page_number, :per_page => 100)
+      haml :new
     end
 
     get '/:url' do |url|
