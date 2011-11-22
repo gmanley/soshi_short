@@ -13,6 +13,10 @@ module SoshiShort
         end
       end
       require "lib/url"
+      require "lib/logger"
+
+      register Sinatra::Logging
+      log_requests
     end
 
     configure :production do
