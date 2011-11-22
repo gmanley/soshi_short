@@ -30,14 +30,10 @@ WillPaginate::ViewHelpers::LinkRenderer.class_eval do
 
   def url(page)
     url = @template.request.path
-    if page == 1
-      url.gsub(/bookmark\/[0-9]+/, 'bookmark')
+    if url =~ /bookmark\/[0-9]+/
+      url.gsub(/bookmark\/[0-9]+/, "bookmark/#{page}")
     else
-      if url =~ /bookmark\/[0-9]+/
-        url.gsub(/bookmark\/[0-9]+/, "bookmark/#{page}")
-      else
-        url + "/#{page}"
-      end
+      url + "/#{page}"
     end
   end
 end
