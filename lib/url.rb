@@ -17,7 +17,7 @@ module SoshiShort
     validates_presence_of [:full_url, :url_key]
 
     def short_url
-      App.settings.config['hostname'] + "/#{self.url_key}"
+      "#{SoshiShort.config.hostname}/#{self.url_key}"
     end
 
     protected

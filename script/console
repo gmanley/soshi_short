@@ -1,6 +1,3 @@
 #!/usr/bin/env ruby
-require "rubygems"
-require "bundler/setup"
 
-file = './script/app_loader'
-Kernel.exec("irb -r irb/completion -r #{file} --simple-prompt")
+require File.expand_path('../app_loader', __FILE__)

@@ -7,13 +7,13 @@ $(document).ready(function () {
     submitUrl();
     return false;
   });
-  
+
   $('.pagination a').live('click', function (e) {
     var url = $(this).attr("href").replace(/^.*\/bookmark\//, "/bookmark#/page/");
     AjaxLinks.setLocation(url);
     e.preventDefault();
   });
-  
+
   AjaxLinks.run();
 });
 

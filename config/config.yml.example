@@ -1,5 +1,5 @@
 development:
-  hostname: http://127.0.0.1:9393
+  hostname: http://127.0.0.1:3000
   redirect_url: http://example.com
   auth:
     user: basic_auth_user
@@ -9,7 +9,7 @@ development:
     host: localhost
     database: soshi_short_development
 production:
-  hoptoad_api_key: hoptoad_api_key # Optional, will use hoptoad only if present.
+  # airbrake_api_key: hoptoad_api_key # Optional, will use airbrake only if present.
   hostname: http://example.com
   redirect_url: http://example.com
   auth:

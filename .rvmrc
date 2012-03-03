@@ -1,1 +1,1 @@
-rvm use 1.9.2@soshi_short --create
+rvm use 1.9.3@soshi_short --create

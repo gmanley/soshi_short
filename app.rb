@@ -1,36 +1,27 @@
 module SoshiShort
   class App < Sinatra::Base
 
-    configure do
-      set :config, YAML.load_file('config/config.yml')[environment.to_s]
-
-      Mongoid.configure do |mongo_config|
-        if ENV['MONGOHQ_URL'] # For heroku deploys
-          conn = Mongo::Connection.from_uri(ENV['MONGOHQ_URL'])
-          mongo_config.master = conn.db(URI.parse(ENV['MONGOHQ_URL']).path.gsub(/^\//, ''))
-        else
-          mongo_config.from_hash(config["database"])
-        end
-      end
-      require "lib/url"
-      require "lib/logger"
-
-      register Sinatra::Logging
-      log_requests
+    configure(:development) do |c|
+      register Sinatra::Reloader
+      c.also_reload('lib/*.rb')
     end
 
-    configure :production do
-      unless config['hoptoad_api_key'].nil?
-        enable :raise_errors
-        use HoptoadNotifier::Rack
-        HoptoadNotifier.configure do |hoptoad_config|
-          hoptoad_config.api_key = config['hoptoad_api_key']
-        end
+    configure(:production) do
+      set :haml, {ugly: true}
+
+      enable :raise_errors
+      disable :logging
+      use Airbrake::Rack
+      Airbrake.configure do |airbrake_config|
+        airbrake_config.api_key = config.airbrake_api_key
       end
     end
+   configure do
+      set :root, APP_ROOT
+      set :config, SoshiShort.config
+      register Sinatra::Pagination
+    end
 
-    require 'lib/pagination_helper'
-    helpers WillPaginate::ViewHelpers::Base
     helpers do
       def protected!
         unless authorized?
@@ -43,13 +34,13 @@ module SoshiShort
         auth ||=  Rack::Auth::Basic::Request.new(request.env)
         auth.provided? && auth.basic? && auth.credentials && \
         auth.credentials == [
-          settings.config['auth']['user'],
-          settings.config['auth']['password']
+          settings.config.auth['user'],
+          settings.config.auth['password']
         ]
       end
 
       def valid_key_provided?
-        params['key'] == settings.config['auth']['key']
+        params['key'] == settings.config.auth['key']
       end
     end
 
@@ -72,7 +63,7 @@ module SoshiShort
       haml :new
     end
 
-    get '/:url' do |url_key|
+   get '/:url' do |url_key|
       url = Url.where(:url_key => url_key).first
       if url.nil?
         status 404
@@ -85,7 +76,7 @@ module SoshiShort
     end
 
     not_found do
-      redirect 'http://soshified.com/forums'
+      redirect config.redirect_url
     end
   end
 end

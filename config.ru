@@ -1,6 +1,5 @@
-require "bundler/setup"
-Bundler.require(:default, (ENV['RACK_ENV'].to_sym || :development))
-$:.unshift('.')
+#!/usr/bin/env rackup
+# encoding: utf-8
 
-require 'app'
+require File.expand_path('../lib/boot',  __FILE__)
 run SoshiShort::App
