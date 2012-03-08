@@ -16,7 +16,8 @@ module SoshiShort
         airbrake_config.api_key = config.airbrake_api_key
       end
     end
-   configure do
+
+    configure do
       set :root, APP_ROOT
       set :config, SoshiShort.config
       register Sinatra::Pagination
@@ -76,7 +77,7 @@ module SoshiShort
     end
 
     not_found do
-      redirect config.redirect_url
+      redirect settings.config.redirect_url
     end
   end
 end
