@@ -11,10 +11,10 @@ module SoshiShort
     field :last_accessed, :type => Time
     field :times_viewed, :type => Integer, :default => 0
 
-    after_initialize :generate_url_key
+    before_create :generate_url_key
 
-    validates_format_of :full_url, :with => URI::regexp(%w(http https)), :message => "The 'url' parameter is invalid!"
-    validates_presence_of [:full_url, :url_key]
+    validates_format_of :full_url, :with => URI.regexp(%w(http https)), :message => "The 'url' parameter is invalid!"
+    validates_presence_of :full_url
 
     def short_url
       "#{SoshiShort.config.hostname}/#{self.url_key}"
@@ -23,7 +23,7 @@ module SoshiShort
     protected
     def generate_url_key
       generated_key = SecureRandom.hex[0..3]
-      if Url.where(:url_key => generated_key).any?
+      if Url.exists?(conditions: { url_key: generated_key })
         generate_url_key
       else
         self.url_key = generated_key if url_key.nil?
