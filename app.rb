@@ -7,7 +7,7 @@ module SoshiShort
     end
 
     configure(:production) do
-      set :haml, {ugly: true}
+      set :haml, { ugly: true }
 
       enable :raise_errors
       disable :logging
@@ -25,7 +25,7 @@ module SoshiShort
 
     helpers do
       def protected!
-        unless authorized?
+        unless authorized? or valid_key_provided? or settings.environment != :production
           response['WWW-Authenticate'] = %(Basic realm="Creating a new short link")
           throw(:halt, [401, "Not authorized\n"])
         end
@@ -46,11 +46,11 @@ module SoshiShort
     end
 
     get '/bookmark' do
-      protected! unless valid_key_provided? || settings.environment != :production
+      protected!
 
       if valid_key_provided?
         url = Url.find_or_create_by(:full_url => params[:url])
-        return url.short_url
+        url.short_url
       else
         @links = Url.paginate(:page => 1, :per_page => 100)
         haml :new
@@ -58,21 +58,20 @@ module SoshiShort
     end
 
     get '/bookmark/:page_number' do |page_number|
-      protected! unless settings.environment != :production
+      protected!
 
       @links = Url.paginate(:page => page_number, :per_page => 100)
       haml :new
     end
 
-   get '/:url' do |url_key|
-      url = Url.where(:url_key => url_key).first
-      if url.nil?
-        status 404
-      else
+    get '/:url' do |url_key|
+      if url = Url.where(:url_key => url_key).first
         url.inc(:times_viewed, 1)
         url.last_accessed = Time.now
         url.save
         redirect url.full_url, 301
+      else
+        status 404
       end
     end
 
