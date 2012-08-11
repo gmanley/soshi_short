@@ -7,7 +7,5 @@ Bundler.require(:default, APP_ENV)
 
 require 'yaml'
 
-Dir[File.join(APP_ROOT, "lib/**/*.rb")].each {|path| require path}
+Dir[File.join(APP_ROOT, 'lib/*.rb')].each { |path| require path }
 require File.join(APP_ROOT, 'app')
-
-SoshiShort.setup_database

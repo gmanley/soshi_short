@@ -1,28 +1,11 @@
 require 'ostruct'
 
-module SoshiShort
-  class Settings
-
+module Sinatra
+  module Settings
     ENVIRONMENTS = %w(development production test)
 
-    def self.config_file(file)
-      obj = config_for_env(YAML.load_file(file)) || {}
-      obj.each { |key, value| obj[key] = config_for_env(value) }
-      OpenStruct.new(obj)
-    end
-
-    def self.config_for_env(hash)
-      if hash.respond_to? :keys and hash.keys.any? {|k| ENVIRONMENTS.include?(k)}
-        non_env_specific = hash.reject {|k,v| ENVIRONMENTS.include?(k)}
-        hash = hash[ENV['RACK_ENV']].merge(non_env_specific)
-      end
-      hash
-    end
-  end
-
-  class << self
     def config
-      @config ||= Settings.config_file('config/config.yml')
+      @config ||= config_file(File.join(APP_ROOT, 'config/config.yml'))
     end
 
     def setup_database
@@ -33,6 +16,41 @@ module SoshiShort
         else
           mongoid_config.from_hash(config.database)
         end
+      end
+    end
+
+    private
+    def config_file(file)
+      obj = config_for_env(YAML.load_file(file)) || {}
+      obj.each { |key, value| obj[key] = config_for_env(value) }
+      OpenStruct.new(obj)
+    end
+
+    def config_for_env(hash)
+      if hash.respond_to? :keys and hash.keys.any? {|k| ENVIRONMENTS.include?(k)}
+        non_env_specific = hash.reject {|k,v| ENVIRONMENTS.include?(k)}
+        hash = hash[APP_ENV].merge(non_env_specific)
+      end
+
+      hash
+    end
+  end
+
+  module Setup
+    extend Settings
+
+    def self.registered(app)
+      setup_airbrake(app) if config.airbrake_api_key.present?
+      setup_database
+      app.set :config, config
+    end
+
+    private
+    def setup_airbrake(app)
+      app.enable :raise_errors
+      app.use Airbrake::Rack
+      Airbrake.configure do |airbrake_config|
+        airbrake_config.api_key = config.airbrake_api_key
       end
     end
   end
