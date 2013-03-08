@@ -18,7 +18,7 @@ class App < Sinatra::Base
 
   helpers do
     def protected!
-      unless authorized? or valid_key_provided? or settings.environment != :production
+      unless !settings.config.auth or authorized? or valid_key_provided?
         response['WWW-Authenticate'] = %(Basic realm="Managing urls")
         throw(:halt, [401, "Not authorized\n"])
       end
@@ -34,7 +34,9 @@ class App < Sinatra::Base
     end
 
     def valid_key_provided?
-      params['key'] == settings.config.auth['key']
+      if auth = settings.config.auth
+        params['key'] == auth['key']
+      end
     end
   end
 
@@ -64,7 +66,7 @@ class App < Sinatra::Base
       url.save
       redirect(url.full_url, 301)
     else
-      status 404
+      redirect("http://cl.ly/#{url_key}", 301)
     end
   end
 
