@@ -5,6 +5,9 @@ ENV['BUNDLE_GEMFILE'] = File.expand_path('../../Gemfile', __FILE__)
 require 'bundler/setup'
 Bundler.require(:default, APP_ENV)
 
+require 'will_paginate'
+require 'will_paginate/active_record'
+
 require 'yaml'
 
 Dir[File.join(APP_ROOT, 'lib/*.rb')].each { |path| require path }

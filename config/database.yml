@@ -1,0 +1,7 @@
+development:
+  adapter: postgresql
+  database: sinatra_short
+
+test:
+  adapter: postgresql
+  database: sinatra_test

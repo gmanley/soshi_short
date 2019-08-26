@@ -8,17 +8,6 @@ module Sinatra
       @config ||= config_file(File.join(APP_ROOT, 'config/config.yml'))
     end
 
-    def setup_database
-      Mongoid.configure do |mongoid_config|
-        if ENV['MONGOHQ_URL'] # For heroku deploys
-          conn = Mongo::Connection.from_uri(ENV['MONGOHQ_URL'])
-          mongoid_config.master = conn.db(URI.parse(ENV['MONGOHQ_URL']).path.gsub(/^\//, ''))
-        else
-          mongoid_config.from_hash(config.database)
-        end
-      end
-    end
-
     private
     def config_file(file)
       obj = config_for_env(YAML.load_file(file)) || {}
@@ -41,17 +30,19 @@ module Sinatra
 
     def self.registered(app)
       setup_airbrake(app) if config.airbrake_api_key.present?
-      setup_database
+      setup_database(app)
       app.set :config, config
+      app.register Sinatra::ActiveRecordExtension
     end
 
     private
-    def setup_airbrake(app)
+
+    def self.setup_database(app)
+      app.register Sinatra::ActiveRecordExtension
+    end
+
+    def self.setup_errors(app)
       app.enable :raise_errors
-      app.use Airbrake::Rack
-      Airbrake.configure do |airbrake_config|
-        airbrake_config.api_key = config.airbrake_api_key
-      end
     end
   end
 end

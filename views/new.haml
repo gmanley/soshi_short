@@ -8,7 +8,7 @@
     %link{:charset => "utf-8", :href => "/css/main.css", :rel => "stylesheet", :type => "text/css"}/
     %script{:src => "/js/head.load.min.js", :type => "text/javascript"}
     %script{:type => "text/javascript"}
-      head.js("https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js", "/js/sammy.min.js", "/js/app.js");
+      head.js("https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js", "/js/sammy.min.js", "/js/app.js");
   %body
     #loading
       %div
@@ -17,7 +17,7 @@
     #container
       .shrink
         %form#shrinkform.shrinkform{:action => "/bookmark", :method => "get"}
-          %input{:name => "key", :type => "hidden", :value => "d41d8cd98f00b204e9800998ecf8427e"}/
+          %input{:name => "key", :type => "hidden", :value => App.config.auth['key'] }/
           %input#url.text{:name => "url", :type => "text"}/
           %a#shrink.action Shorten
         #shrinkresult

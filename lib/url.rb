@@ -1,14 +1,7 @@
 require 'uri'
 require 'securerandom'
 
-class Url
-  include Mongoid::Document
-
-  field :url_key,       type: String
-  field :full_url,      type: String
-  field :last_accessed, type: Time
-  field :times_viewed,  type: Integer, default: 0
-
+class Url < ActiveRecord::Base
   before_create :generate_url_key
 
   validates :full_url,
@@ -21,9 +14,10 @@ class Url
   end
 
   protected
+
   def generate_url_key
     generated_key = SecureRandom.hex[0..3]
-    if Url.exists?(conditions: { url_key: generated_key })
+    if Url.exists?(url_key: generated_key)
       generate_url_key
     else
       self.url_key = generated_key if url_key.nil?
