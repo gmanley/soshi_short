@@ -60,10 +60,10 @@ class App < Sinatra::Base
   end
 
   get '/:url' do |url_key|
-    if url = Url.where(url_key: url_key).first
-      url.inc(:times_viewed, 1)
-      url.last_accessed = Time.now
-      url.save
+    if url = Url.find_by(url_key: url_key)
+      Url.increment_counter(:times_viewed, url.id)
+      url.update!(last_accessed: Time.now)
+
       redirect(url.full_url, 301)
     else
       status 404
