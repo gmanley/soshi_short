@@ -1,5 +1,5 @@
 class App < Sinatra::Base
-  register Sinatra::Setup
+  register Setup
 
   configure(:development) do |c|
     register(Sinatra::Reloader)
@@ -8,17 +8,12 @@ class App < Sinatra::Base
 
   configure do
     set(:root, APP_ROOT)
-    set(:haml, { format: :html5 })
-
-    enable(:sessions)
-    set(:session_secret, config.session_secret)
-
     register Sinatra::Pagination
   end
 
   helpers do
     def protected!
-      unless !settings.config.auth || authorized? || valid_key_provided?
+      unless authorized? || valid_key_provided?
         response['WWW-Authenticate'] = %(Basic realm="Managing urls")
         throw(:halt, [401, "Not authorized\n"])
       end
@@ -28,13 +23,13 @@ class App < Sinatra::Base
       auth ||=  Rack::Auth::Basic::Request.new(request.env)
       auth.provided? && auth.basic? && auth.credentials && \
       auth.credentials == [
-        settings.config.auth['user'],
-        settings.config.auth['password']
+        ENV['ADMIN_USER'],
+        ENV['ADMIN_PASSWORD']
       ]
     end
 
     def valid_key_provided?
-      if auth = settings.config.auth
+      if auth = ENV['API_KEY']
         params['key'] == auth['key']
       end
     end
@@ -71,6 +66,6 @@ class App < Sinatra::Base
   end
 
   not_found do
-    redirect(settings.config.redirect_url)
+    redirect(ENV['REDIRECT_URL'])
   end
 end

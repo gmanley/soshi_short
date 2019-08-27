@@ -1,48 +1,67 @@
-require 'ostruct'
+module Setup
+  @initializers = []
 
-module Sinatra
-  module Settings
-    ENVIRONMENTS = %w(development production test)
+  def self.registered(app)
+    setup(app)
+  end
 
-    def config
-      @config ||= config_file(File.join(APP_ROOT, 'config/config.yml'))
-    end
-
-    private
-    def config_file(file)
-      obj = config_for_env(YAML.load_file(file)) || {}
-      obj.each { |key, value| obj[key] = config_for_env(value) }
-      OpenStruct.new(obj)
-    end
-
-    def config_for_env(hash)
-      if hash.respond_to? :keys and hash.keys.any? {|k| ENVIRONMENTS.include?(k)}
-        non_env_specific = hash.reject {|k,v| ENVIRONMENTS.include?(k)}
-        hash = hash[APP_ENV].merge(non_env_specific)
+  def self.setup(app, except: [])
+    @initializers.each do |initializer|
+      if except.include?(initializer[:name])
+        logger.info("Skipping initializer #{initializer[:name]}")
+      else
+        logger.info("Loading initializer #{initializer[:name]}")
+        initializer[:block].call(app)
       end
-
-      hash
     end
   end
 
-  module Setup
-    extend Settings
+  def self.root
+    File.expand_path('../', __dir__)
+  end
 
-    def self.registered(app)
-      setup_airbrake(app) if config.airbrake_api_key.present?
-      setup_database(app)
-      app.set :config, config
-      app.register Sinatra::ActiveRecordExtension
+  def self.env
+    ENV['RACK_ENV']
+  end
+
+  def self.logger
+    return @logger if @logger
+
+    @logger = Logger.new($stdout)
+    @logger.level = Logger::FATAL if env == 'test'
+    @logger
+  end
+
+  def self.initializer(name, &block)
+    @initializers << { name: name, block: block }
+  end
+
+  initializer :active_record do |app|
+    app.register Sinatra::ActiveRecordExtension
+  end
+
+  initializer :bugsnag do |app|
+    app.enable :raise_errors
+
+    Bugsnag.configure do |config|
+      config.project_root = root
+      config.release_stage = env
+      config.notify_release_stages = ['production']
+      config.send_environment = true
+      config.api_key = ENV['BUGSNAG_API_KEY']
+      config.logger = logger
     end
+  end
 
-    private
 
-    def self.setup_database(app)
-      app.register Sinatra::ActiveRecordExtension
-    end
+  initializer :dotenv do
+    existing_env_files = [
+      ".env.#{env}.local",
+      ('.env.local' unless env == 'test'),
+      ".env.#{env}",
+      '.env'
+    ].compact.map { |p| File.join(root, p) if File.exist?(p) }.compact
 
-    def self.setup_errors(app)
-      app.enable :raise_errors
-    end
+    Dotenv.load!(*existing_env_files) if existing_env_files.any?
   end
 end

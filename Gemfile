@@ -9,6 +9,9 @@ gem 'sinatra-activerecord'
 gem 'pg'
 gem 'will_paginate'
 
+gem 'bugsnag', '~> 6.11'
+gem 'dotenv', '~> 2.7'
+
 gem 'haml'
 gem 'rake'
 gem 'rack-test', require: false

@@ -17,7 +17,7 @@
     #container
       .shrink
         %form#shrinkform.shrinkform{:action => "/bookmark", :method => "get"}
-          %input{:name => "key", :type => "hidden", :value => App.config.auth['key'] }/
+          %input{:name => "key", :type => "hidden", :value => ENV['API_KEY'] }/
           %input#url.text{:name => "url", :type => "text"}/
           %a#shrink.action Shorten
         #shrinkresult

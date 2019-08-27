@@ -10,7 +10,7 @@ class Url < ActiveRecord::Base
                       message: "The 'url' parameter is invalid!" }
 
   def short_url
-    "#{App.settings.config.hostname}/#{url_key}"
+    "#{ENV['HOST_NAME']}/#{url_key}"
   end
 
   protected
