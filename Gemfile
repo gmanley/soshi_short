@@ -4,7 +4,7 @@ ruby '2.6.3'
 
 gem 'sinatra', require: 'sinatra/base', git: 'git://github.com/sinatra/sinatra.git'
 
-gem 'activerecord', '~> 5.2'
+gem 'activerecord', '~> 6.1'
 gem 'sinatra-activerecord'
 gem 'pg'
 gem 'will_paginate'
